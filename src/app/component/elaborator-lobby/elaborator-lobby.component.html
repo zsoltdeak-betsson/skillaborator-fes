@@ -1,0 +1,8 @@
+<!-- TODO add question from question data -->
+<label class="elaborator-lobby-question"></label>
+<mat-radio-group aria-labelledby="elaborator-lobby-question" class="elaborator-lobby-answer-group" (change)="onSelect"
+  required>
+  <mat-radio-button class="elaborator-lobby-answer" *ngFor="let answer of answers" [value]="answer">
+    {{answer}}
+  </mat-radio-button>
+</mat-radio-group>
