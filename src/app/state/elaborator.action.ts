@@ -1,5 +1,5 @@
 import { createAction } from '@ngrx/store';
-import { Question } from '../component/elaborator-lobby.model';
+import { Question } from '../component/elaborator-question.model';
 
 const ACTION_PREFIX = 'Elaborator';
 

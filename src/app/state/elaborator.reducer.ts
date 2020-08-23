@@ -1,4 +1,4 @@
-import { Question, SelectedAnswer } from "../component/elaborator-lobby.model";
+import { Question, SelectedAnswer } from "../component/elaborator-question.model";
 import { createReducer, on, Action } from "@ngrx/store";
 import { ElaboratorAction } from "./elaborator.action";
 

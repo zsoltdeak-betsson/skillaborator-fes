@@ -1,6 +1,6 @@
 export interface Question {
     id: string;
-    question: string;
+    value: string;
     answers: Answer[];
     level: number;
 }

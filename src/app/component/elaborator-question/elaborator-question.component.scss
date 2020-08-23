@@ -1,0 +1,16 @@
+.elaborator-question {
+  display: flex;
+  flex-direction: column;
+  &-answer-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-answer {
+    margin: 5px;
+
+    span {
+      white-space: pre-wrap;
+    }
+  }
+}

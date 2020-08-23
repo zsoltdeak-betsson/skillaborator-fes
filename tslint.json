@@ -19,13 +19,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "skillaborator",
+      "sk",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "skillaborator",
+      "sk",
       "kebab-case"
     ],
     "eofline": true,

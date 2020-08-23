@@ -1,6 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, HostBinding } from '@angular/core';
-import { MatRadioChange } from '@angular/material/radio';
-import { Answer } from '../elaborator-lobby.model';
+import { Component, ChangeDetectionStrategy, HostBinding } from '@angular/core';
+
 
 @Component({
   selector: 'sk-elaborator-lobby',
@@ -8,21 +7,6 @@ import { Answer } from '../elaborator-lobby.model';
   styleUrls: ['./elaborator-lobby.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ElaboratorLobbyComponent implements OnInit {
-  @HostBinding('class.elaborator-lobby') someField = true;
-  // questions and answers both got from store
-  answers: Answer[] = [];
-
-  private selectedAnswer = '';
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-    // TODO
-  }
-
-  onSelect(change: MatRadioChange) {
-    this.selectedAnswer = change.value;
-  }
+export class ElaboratorLobbyComponent {
+  @HostBinding('class.elaborator-lobby') hostCss = true;
 }
