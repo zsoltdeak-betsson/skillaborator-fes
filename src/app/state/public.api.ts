@@ -1,4 +1,10 @@
-export { ElaboratorAction } from './elaborator.action';
-export { ElaboratorEffect } from './elaborator.effect';
-export { ElaboratorState, elaboratorReducer } from './elaborator.reducer';
-export { getCurrentQuestion } from './elaborator.selector';
+export { ElaboratorAction } from './elaborator/elaborator.action';
+export { ElaboratorEffect } from './elaborator/elaborator.effect';
+export {
+  ElaboratorState,
+  elaboratorReducer,
+} from './elaborator/elaborator.reducer';
+export {
+  getCurrentQuestion,
+  getQuestions,
+} from './elaborator/elaborator.selector';

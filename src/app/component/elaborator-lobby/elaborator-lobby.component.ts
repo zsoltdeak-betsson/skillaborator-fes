@@ -8,13 +8,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  ElaboratorState,
-  getCurrentQuestion,
-  ElaboratorAction,
-} from 'src/app/state';
-import { Observable, Subscription } from 'rxjs';
+import { getCurrentQuestion, ElaboratorAction } from 'src/app/state';
+import { Subscription } from 'rxjs';
 import { Question } from '../elaborator-question.model';
+import { AppState } from 'src/app/app.module';
 
 @Component({
   selector: 'sk-elaborator-lobby',
@@ -29,16 +26,13 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   question: Question | undefined;
   question$$ = new Subscription();
 
-  private readonly level = 1;
-
   constructor(
-    private store: Store<ElaboratorState>,
+    private store: Store<AppState>,
     private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    // TODO level
-    this.store.dispatch(ElaboratorAction.getQuestion(this.level));
+    this.store.dispatch(ElaboratorAction.getQuestion());
     this.question$$.add(
       this.store.select(getCurrentQuestion).subscribe((question: Question) => {
         this.question = question;

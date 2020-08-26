@@ -8,9 +8,12 @@ import { ElaboratorLobbyComponent } from './component/elaborator-lobby/elaborato
 import { ElaboratorQuestionComponent } from './component/elaborator-question/elaborator-question.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { StoreModule } from '@ngrx/store';
-import { elaboratorReducer } from './state/elaborator.reducer';
-import { ElaboratorEffect } from './state';
+import { ElaboratorEffect, ElaboratorState, elaboratorReducer } from './state';
 import { EffectsModule } from '@ngrx/effects';
+
+export interface AppState {
+  elaborator: ElaboratorState;
+}
 
 @NgModule({
   declarations: [
