@@ -19,9 +19,9 @@ export class ElaboratorEffect {
       map(([, questions]) => {
         // TODO some logic for levels
         if (!questions.length) {
-          return 0;
+          return 1;
         }
-        return 1;
+        return 2;
       }),
       mergeMap((level: number) =>
         this.service.getQuestion(level).pipe(
