@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ElaboratorLobbyComponent } from './component/elaborator-lobby/elaborator-lobby.component';
 import { ElaboratorQuestionComponent } from './component/elaborator-question/elaborator-question.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StoreModule } from '@ngrx/store';
 import { ElaboratorEffect, ElaboratorState, elaboratorReducer } from './state';
 import { EffectsModule } from '@ngrx/effects';
@@ -27,6 +28,7 @@ export interface AppState {
     AppRoutingModule,
     BrowserAnimationsModule,
     MatRadioModule,
+    MatProgressSpinnerModule,
     StoreModule.forRoot({ elaborator: elaboratorReducer }),
     EffectsModule.forRoot([ElaboratorEffect]),
   ],

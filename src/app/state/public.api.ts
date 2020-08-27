@@ -7,4 +7,5 @@ export {
 export {
   getCurrentQuestion,
   getQuestions,
+  getLoadingCurrentQuestion,
 } from './elaborator/elaborator.selector';

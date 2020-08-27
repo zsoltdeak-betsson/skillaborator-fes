@@ -8,7 +8,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { getCurrentQuestion, ElaboratorAction } from 'src/app/state';
+import {
+  getCurrentQuestion,
+  ElaboratorAction,
+  getLoadingCurrentQuestion,
+} from 'src/app/state';
 import { Subscription } from 'rxjs';
 import { Question } from '../elaborator-question.model';
 import { AppState } from 'src/app/app.module';
@@ -24,7 +28,8 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   @HostBinding('class.elaborator-lobby') hostCss = true;
 
   question: Question | undefined;
-  question$$ = new Subscription();
+  subscription$$ = new Subscription();
+  isLoadingQuestion = true;
 
   constructor(
     private store: Store<AppState>,
@@ -33,15 +38,24 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(ElaboratorAction.getQuestion());
-    this.question$$.add(
+    this.subscription$$.add(
       this.store.select(getCurrentQuestion).subscribe((question: Question) => {
         this.question = question;
         this.cdRef.markForCheck();
       })
     );
+
+    this.subscription$$.add(
+      this.store
+        .select(getLoadingCurrentQuestion)
+        .subscribe((isLoading: boolean) => {
+          this.isLoadingQuestion = isLoading;
+          this.cdRef.markForCheck();
+        })
+    );
   }
 
   ngOnDestroy() {
-    this.question$$.unsubscribe();
+    this.subscription$$.unsubscribe();
   }
 }
