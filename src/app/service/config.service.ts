@@ -6,4 +6,8 @@ export class ConfigService {
   getQuestionEndpoint(): string {
     return environment.apiUrl + environment.questionEndpoint;
   }
+
+  getMaxQuestionsCount(): number {
+    return environment.maxQuestionCount;
+  }
 }

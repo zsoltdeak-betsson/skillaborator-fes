@@ -1,16 +1,41 @@
+@import "~@angular/material/theming";
+
 .elaborator-question {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 12px 18px 12px 18px;
+
+  &-content {
+    height: 100%;
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+  }
+
   &-answer-group {
     display: flex;
     flex-direction: column;
   }
 
   &-answer {
-    margin: 5px;
-
+    margin-top: 5px;
     span {
       white-space: pre-wrap;
     }
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: space-between;
+    align-self: stretch;
+    margin: 18px 0 22px 0;
+  }
+
+  &-counter {
+    display: inline-flex;
+    align-items: center;
+    color: mat-color($mat-grey, 300);
   }
 }

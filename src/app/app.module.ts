@@ -8,6 +8,8 @@ import { ElaboratorLobbyComponent } from './component/elaborator-lobby/elaborato
 import { ElaboratorQuestionComponent } from './component/elaborator-question/elaborator-question.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
 import { StoreModule } from '@ngrx/store';
 import { ElaboratorEffect, ElaboratorState, elaboratorReducer } from './state';
 import { EffectsModule } from '@ngrx/effects';
@@ -29,6 +31,8 @@ export interface AppState {
     BrowserAnimationsModule,
     MatRadioModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatButtonModule,
     StoreModule.forRoot({ elaborator: elaboratorReducer }),
     EffectsModule.forRoot([ElaboratorEffect]),
   ],

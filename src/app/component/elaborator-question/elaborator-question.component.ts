@@ -4,9 +4,13 @@ import {
   HostBinding,
   Input,
   ViewEncapsulation,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
-import { Question } from '../elaborator-question.model';
+import { Question, Answer } from '../elaborator-question.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfigService } from '../../service';
 
 @Component({
   selector: 'sk-elaborator-question',
@@ -21,7 +25,30 @@ export class ElaboratorQuestionComponent {
   @Input()
   question: Question;
 
-  constructor() {}
+  @Output()
+  nextQuestionClick = new EventEmitter<Answer>();
+  
+  // TODO
+  currentQuestionNumber = 1;
+  readonly maxQuestionCount;
+  
+  private selectedAnswerId: string | undefined;
 
-  onSelect(change: MatRadioChange) {}
+  constructor(private snackBar: MatSnackBar, configService: ConfigService) {
+    this.maxQuestionCount = configService.getMaxQuestionsCount();
+  }
+
+  onSelect(change: MatRadioChange) {
+    this.selectedAnswerId = change.value;
+  }
+
+  onNextClick() {
+    if (this.selectedAnswerId) {
+      this.nextQuestionClick.emit();
+      return;
+    }
+    this.snackBar.open('Select an answer please', 'OK', {
+      duration: 2000,
+    });
+  }
 }

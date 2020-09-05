@@ -58,4 +58,9 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription$$.unsubscribe();
   }
+
+  getNextQuestion(selectedAnswerId: string) {
+    // TODO: save question id and answer id
+    this.store.dispatch(ElaboratorAction.getQuestion());
+  }
 }

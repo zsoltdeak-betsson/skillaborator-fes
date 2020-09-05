@@ -1,7 +1,40 @@
-<label class="elaborator-question-question">{{question?.value}}</label>
-<mat-radio-group aria-labelledby="elaborator-question-question" class="elaborator-question-answer-group" (change)="onSelect"
-  required>
-  <mat-radio-button class="elaborator-question-answer" *ngFor="let answer of question?.answers" [value]="answer.id">
-    <span>{{answer.value}}</span>
-  </mat-radio-button>
-</mat-radio-group>
+<label class="elaborator-question-question mat-headline">{{
+  question?.value
+}}</label>
+<div class="elaborator-question-content">
+  <mat-radio-group
+    aria-labelledby="elaborator-question-question"
+    class="elaborator-question-answer-group"
+    (change)="onSelect($event)"
+    required
+  >
+    <mat-radio-button
+      class="elaborator-question-answer"
+      *ngFor="let answer of question?.answers"
+      [value]="answer.id"
+    >
+      <span>{{ answer.value }}</span>
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
+<div class="elaborator-question-footer">
+  <!-- TODO back -->
+  <button
+    class="elaborator-question-previous-button"
+    mat-raised-button
+    disabled
+  >
+    Previous question
+  </button>
+  <span class="elaborator-question-counter"
+    >{{ currentQuestionNumber }}/{{ maxQuestionCount }}</span
+  >
+  <button
+    class="elaborator-question-next-button"
+    mat-raised-button
+    color="primary"
+    (click)="onNextClick()"
+  >
+    Next question
+  </button>
+</div>
