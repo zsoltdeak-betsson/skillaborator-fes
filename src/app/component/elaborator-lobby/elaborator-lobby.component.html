@@ -1,6 +1,7 @@
 <sk-elaborator-question
   *ngIf="!isLoadingQuestion"
   [question]="question"
+  [currentQuestionNumber]="currentQuestionNumber"
   (nextQuestionClick)="getNextQuestion($event)"
 ></sk-elaborator-question>
 

@@ -25,13 +25,14 @@ export class ElaboratorQuestionComponent {
   @Input()
   question: Question;
 
+  @Input()
+  currentQuestionNumber = 1;
+
   @Output()
   nextQuestionClick = new EventEmitter<Answer>();
-  
-  // TODO
-  currentQuestionNumber = 1;
+
   readonly maxQuestionCount;
-  
+
   private selectedAnswerId: string | undefined;
 
   constructor(private snackBar: MatSnackBar, configService: ConfigService) {

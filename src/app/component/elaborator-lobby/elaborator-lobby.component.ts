@@ -15,7 +15,12 @@ import {
 } from 'src/app/state';
 import { Subscription } from 'rxjs';
 import { Question } from '../elaborator-question.model';
-import { AppState } from 'src/app/app.module';
+import { AppState } from './../../app.module';
+import {
+  LocalStorageService,
+  QUESTION_IDS_STORAGE_KEY,
+  ANSWER_IDS_STORAGE_KEY,
+} from './../../service';
 
 @Component({
   selector: 'sk-elaborator-lobby',
@@ -30,6 +35,7 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   question: Question | undefined;
   subscription$$ = new Subscription();
   isLoadingQuestion = true;
+  currentQuestionNumber = 1;
 
   constructor(
     private store: Store<AppState>,
@@ -37,6 +43,9 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    LocalStorageService.setForKey(QUESTION_IDS_STORAGE_KEY, []);
+    LocalStorageService.setForKey(ANSWER_IDS_STORAGE_KEY, []);
+
     this.store.dispatch(ElaboratorAction.getQuestion());
     this.subscription$$.add(
       this.store.select(getCurrentQuestion).subscribe((question: Question) => {
@@ -60,7 +69,22 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   }
 
   getNextQuestion(selectedAnswerId: string) {
-    // TODO: save question id and answer id
+    const previousQuestionIds =
+      LocalStorageService.getForKey(QUESTION_IDS_STORAGE_KEY) ?? [];
+    const previousAnswerIds =
+      LocalStorageService.getForKey(ANSWER_IDS_STORAGE_KEY) ?? [];
+
+    previousQuestionIds.push(this.question.id);
+    previousAnswerIds.push(selectedAnswerId);
+
+    LocalStorageService.setForKey(
+      QUESTION_IDS_STORAGE_KEY,
+      previousQuestionIds
+    );
+    LocalStorageService.setForKey(ANSWER_IDS_STORAGE_KEY, previousAnswerIds);
+
+    this.currentQuestionNumber = previousAnswerIds.length + 1;
+
     this.store.dispatch(ElaboratorAction.getQuestion());
   }
 }
