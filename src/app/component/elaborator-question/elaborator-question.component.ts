@@ -29,7 +29,7 @@ export class ElaboratorQuestionComponent {
   currentQuestionNumber = 1;
 
   @Output()
-  nextQuestionClick = new EventEmitter<Answer>();
+  nextQuestionClick = new EventEmitter<string>();
 
   readonly maxQuestionCount;
 
@@ -45,7 +45,7 @@ export class ElaboratorQuestionComponent {
 
   onNextClick() {
     if (this.selectedAnswerId) {
-      this.nextQuestionClick.emit();
+      this.nextQuestionClick.emit(this.selectedAnswerId);
       return;
     }
     this.snackBar.open('Select an answer please', 'OK', {
