@@ -1,6 +1,9 @@
-<label class="elaborator-question-question mat-headline">{{
-  question?.value
-}}</label>
+<label class="elaborator-question-question mat-headline">
+  {{ question?.value }}
+</label>
+<pre *ngIf="question?.code">
+  <code>{{question?.code}}</code>
+</pre>
 <div class="elaborator-question-content">
   <mat-radio-group
     aria-labelledby="elaborator-question-question"
