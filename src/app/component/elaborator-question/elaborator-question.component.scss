@@ -7,6 +7,10 @@
   width: 100%;
   margin: 12px 18px 12px 18px;
 
+  code {
+    font-size: 1.1rem;
+  }
+
   &-content {
     height: 100%;
     display: flex;
@@ -20,7 +24,10 @@
   }
 
   &-answer {
-    margin-top: 5px;
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
+    font-size: 1.2rem;
     span {
       white-space: pre-wrap;
     }

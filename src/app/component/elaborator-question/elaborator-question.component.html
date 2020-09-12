@@ -2,7 +2,7 @@
   {{ question?.value }}
 </label>
 <pre *ngIf="question?.code">
-  <code>{{question?.code}}</code>
+  <code [highlight]="question.code.value" [languages]="[question.code.language]"></code>
 </pre>
 <div class="elaborator-question-content">
   <mat-radio-group

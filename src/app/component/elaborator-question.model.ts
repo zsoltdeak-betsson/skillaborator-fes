@@ -3,7 +3,7 @@ export interface Question {
   value: string;
   answers: Answer[];
   level: number;
-  code?: string;
+  code?: Code;
 }
 
 export interface Answer {
@@ -14,4 +14,9 @@ export interface Answer {
 export interface SelectedAnswer {
   questionId: string;
   answerId: string;
+}
+
+export interface Code {
+  value: string;
+  language: string;
 }

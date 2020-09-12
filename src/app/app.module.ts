@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { StoreModule } from '@ngrx/store';
 import { ElaboratorEffect, ElaboratorState, elaboratorReducer } from './state';
 import { EffectsModule } from '@ngrx/effects';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 export interface AppState {
   elaborator: ElaboratorState;
@@ -33,10 +34,18 @@ export interface AppState {
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatButtonModule,
+    HighlightModule,
     StoreModule.forRoot({ elaborator: elaboratorReducer }),
     EffectsModule.forRoot([ElaboratorEffect]),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
