@@ -21,7 +21,8 @@
         'right-answer': answer.id === selectedAndRightAnswer?.rightAnswerId,
         'wrong-answer':
           answer.id === selectedAndRightAnswer?.answerId &&
-          answer.id !== selectedAndRightAnswer?.rightAnswerId
+          answer.id !== selectedAndRightAnswer?.rightAnswerId,
+        'read-only': readOnly
       }"
     >
       <span>{{ answer.value }}</span>
