@@ -18,16 +18,8 @@ export class ElaboratorEffect {
   getQuestion$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ElaboratorAction.getQuestion),
-      withLatestFrom(this.store.select(getQuestions)),
-      map(([, questions]) => {
-        // TODO some logic for levels
-        if (!questions.length) {
-          return 1;
-        }
-        return 2;
-      }),
-      mergeMap((level: number) =>
-        this.service.getQuestion(level).pipe(
+      mergeMap(({ selectedAnswerIds }) =>
+        this.service.getQuestion(selectedAnswerIds).pipe(
           map((question: Question) =>
             ElaboratorAction.getQuestionSuccess(question)
           ),

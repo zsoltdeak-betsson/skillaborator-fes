@@ -17,6 +17,10 @@ export class AppComponent {
       .addSvgIcon(
         'done',
         sanitizer.bypassSecurityTrustResourceUrl('./assets/done.svg')
+      )
+      .addSvgIcon(
+        'remove',
+        sanitizer.bypassSecurityTrustResourceUrl('./assets/remove.svg')
       );
   }
 }

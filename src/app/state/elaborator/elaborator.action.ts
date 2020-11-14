@@ -8,11 +8,16 @@ import {
 const ACTION_PREFIX = 'Elaborator';
 
 export namespace ElaboratorAction {
-  export const getQuestion = createAction(`${ACTION_PREFIX} Get Question`);
+  export const getQuestion = createAction(
+    `${ACTION_PREFIX} Get Question`,
+    (selectedAnswerIds: string[] = []) => ({ selectedAnswerIds })
+  );
+
   export const getQuestionSuccess = createAction(
     `${ACTION_PREFIX} Get Question Success`,
     (question: Question) => ({ question })
   );
+
   export const getQuestionFail = createAction(
     `${ACTION_PREFIX} Get Question Fail`
   );
@@ -28,8 +33,11 @@ export namespace ElaboratorAction {
 
   export const evaluateAnswersSuccess = createAction(
     `${ACTION_PREFIX} Evaluate Answers Success`,
-    (selectedAndRightAnswers: SelectedAndRightAnswer[]) => ({ selectedAndRightAnswers })
+    (selectedAndRightAnswers: SelectedAndRightAnswer[]) => ({
+      selectedAndRightAnswers,
+    })
   );
+
   export const evaluateAnswersFail = createAction(
     `${ACTION_PREFIX} Evaluate Answers Fail`
   );

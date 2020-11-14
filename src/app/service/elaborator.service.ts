@@ -12,10 +12,15 @@ import { Observable } from 'rxjs';
 export class ElaboratorService {
   constructor(private httpClient: HttpClient, private config: ConfigService) {}
 
-  getQuestion(level: number): Observable<Question> {
+  getQuestion(selectedQuestionIds: string[]): Observable<Question> {
     const questionEndpoint = this.config.getQuestionEndpoint();
+    const requestParams = new HttpParams();
+    selectedQuestionIds.forEach((selectedQuestionId) =>
+      requestParams.append('answerId', selectedQuestionId)
+    );
+
     return this.httpClient.get<Question>(questionEndpoint, {
-      params: new HttpParams({ fromString: 'level=' + level }),
+      params: requestParams,
     });
   }
 

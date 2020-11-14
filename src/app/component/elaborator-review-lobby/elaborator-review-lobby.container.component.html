@@ -2,19 +2,30 @@
   <mat-expansion-panel *ngFor="let question of questions; index as i">
     <mat-expansion-panel-header>
       <mat-panel-title> {{ i }}. {{ question.value }} </mat-panel-title>
-      <mat-panel-description>
+      <mat-panel-description
+        [ngSwitch]="
+          selectedAndRightAnswersMap?.get(question.id).answerSummaryState
+        "
+      >
         <!-- TODO missed right answer -->
         <mat-icon
-          *ngIf="rightAnswersSelected(question)"
+          *ngSwitchCase="answerSummaryState.Right"
           class="right-answer"
           svgIcon="done"
           aria-hidden="false"
           aria-label="Good answer icon"
         ></mat-icon>
         <mat-icon
-          *ngIf="!rightAnswersSelected(question)"
+          *ngSwitchCase="answerSummaryState.Wrong"
           class="wrong-answer"
           svgIcon="close"
+          aria-hidden="false"
+          aria-label="Bad answer icon"
+        ></mat-icon>
+        <mat-icon
+          *ngSwitchCase="answerSummaryState.PartialWrong"
+          class="missed-answer"
+          svgIcon="remove"
           aria-hidden="false"
           aria-label="Bad answer icon"
         ></mat-icon>
@@ -25,7 +36,7 @@
       <sk-elaborator-question
         [question]="question"
         [currentQuestionNumber]="i"
-        [selectedAndRightAnswer]="selectedAndRightAnswers?.get(question.id)"
+        [selectedAndRightAnswer]="selectedAndRightAnswersMap?.get(question.id)"
         readOnly
       ></sk-elaborator-question>
     </ng-template>

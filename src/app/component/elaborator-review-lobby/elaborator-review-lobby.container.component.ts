@@ -3,29 +3,23 @@ import {
   ChangeDetectionStrategy,
   HostBinding,
   OnInit,
-  OnDestroy,
   ChangeDetectorRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription, merge, combineLatest } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { Question, SelectedAndRightAnswer } from '../elaborator-question.model';
 import { AppState } from '../../app.module';
-import {
-  LocalStorageService,
-  QUESTION_IDS_STORAGE_KEY,
-  ANSWER_IDS_STORAGE_KEY,
-  ConfigService,
-} from '../../service';
 import { tap, take, filter } from 'rxjs/operators';
-import {
-  ElaboratorAction,
-  getCurrentQuestion,
-  getLoadingCurrentQuestion,
-  getQuestions,
-} from '../..';
+import { getQuestions } from '../..';
 import { getSelectedAndRightAnswers } from '../../state/elaborator/elaborator.selector';
 import { Router } from '@angular/router';
+
+enum AnswerSummaryState {
+  Right,
+  PartialWrong,
+  Wrong,
+}
 
 @Component({
   selector: 'sk-elaborator-review-lobby',
@@ -38,8 +32,12 @@ export class ElaboratorReviewLobbyComponent implements OnInit {
   @HostBinding('class.elaborator-review-lobby') hostCss = true;
 
   questions: Question[];
-  selectedAndRightAnswers: Map<string, SelectedAndRightAnswer>;
+  selectedAndRightAnswersMap: Map<
+    string,
+    SelectedAndRightAnswer & { answerSummaryState: AnswerSummaryState }
+  >;
   questionPreview: false;
+  answerSummaryState = AnswerSummaryState;
 
   constructor(
     private store: Store<AppState>,
@@ -69,11 +67,30 @@ export class ElaboratorReviewLobbyComponent implements OnInit {
           SelectedAndRightAnswer[],
           Question[]
         ]) => {
-          this.selectedAndRightAnswers = new Map();
+          this.selectedAndRightAnswersMap = new Map();
+
           selectedAndRightAnswers.forEach((selectedAndRightAnswer) => {
-            this.selectedAndRightAnswers.set(
+            let answerSummaryState;
+            const answersRightAnswersIntersection = this.intersect(
+              selectedAndRightAnswer.rightAnswerIds,
+              selectedAndRightAnswer.answerIds
+            );
+
+            switch (answersRightAnswersIntersection.length) {
+              case 0:
+                answerSummaryState = AnswerSummaryState.Wrong;
+                break;
+              case selectedAndRightAnswer.rightAnswerIds.length:
+                answerSummaryState = AnswerSummaryState.Right;
+                break;
+              default:
+                answerSummaryState = AnswerSummaryState.PartialWrong;
+                break;
+            }
+
+            this.selectedAndRightAnswersMap.set(
               selectedAndRightAnswer.questionId,
-              selectedAndRightAnswer
+              { ...selectedAndRightAnswer, answerSummaryState }
             );
           });
           this.questions = questions;
@@ -82,21 +99,18 @@ export class ElaboratorReviewLobbyComponent implements OnInit {
       );
   }
 
-  rightAnswersSelected(question: Question): boolean {
-    const rightAnswerIds =
-      this.selectedAndRightAnswers?.get(question.id).rightAnswerIds ?? [];
-    const selectedAnswerIds =
-      [...this.selectedAndRightAnswers?.get(question.id).answerIds] ?? [];
-    return (
-      rightAnswerIds.length === selectedAnswerIds.length &&
-      rightAnswerIds.every((rightAnswerId) => {
-        const indexOfRightAnswer = selectedAnswerIds.indexOf(rightAnswerId);
-        if (indexOfRightAnswer === -1) {
-          return false;
-        }
-        selectedAnswerIds.splice(indexOfRightAnswer, 1);
-        return true;
-      })
-    );
+  private intersect(arrA: string[], arrB: string[]): string[] {
+    const intersection = [];
+    const cloneB = [...arrB];
+
+    arrA.forEach((elemA) => {
+      const elemAIndexInCloneB = cloneB.indexOf(elemA);
+      if (elemAIndexInCloneB === -1) {
+        return;
+      }
+      cloneB.splice(elemAIndexInCloneB, 1);
+      intersection.push(elemA);
+    });
+    return intersection;
   }
 }

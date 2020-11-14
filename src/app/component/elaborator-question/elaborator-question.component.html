@@ -19,7 +19,9 @@
       [value]="answer.id"
       [checked]="selectedAndRightAnswer?.answerIds.includes(answer.id)"
       [ngClass]="{
-        'right-answer': isRight(answer.id),
+        'right-answer':
+          selectedAndRightAnswer?.answerIds.includes(answer.id) &&
+          isRight(answer.id),
         'wrong-answer':
           selectedAndRightAnswer?.answerIds.includes(answer.id) &&
           !isRight(answer.id),
@@ -38,7 +40,12 @@
         [checked]="selectedAndRightAnswer?.answerIds.includes(answer.id)"
         [disabled]="readOnly"
         [ngClass]="{
-          'right-answer': isRight(answer.id),
+          'right-answer':
+            selectedAndRightAnswer?.answerIds.includes(answer.id) &&
+            isRight(answer.id),
+          'missed-answer':
+            !selectedAndRightAnswer?.answerIds.includes(answer.id) &&
+            isRight(answer.id),
           'wrong-answer':
             selectedAndRightAnswer?.answerIds.includes(answer.id) &&
             !isRight(answer.id),
