@@ -6,7 +6,13 @@ export {
 } from './elaborator/elaborator.reducer';
 export {
   getCurrentQuestion,
-  getQuestions,
   getLoadingCurrentQuestion,
   getSelectedAnswers,
 } from './elaborator/elaborator.selector';
+
+export { ReviewState, reviewReducer } from './review/review.reducer';
+export {
+  getScore,
+  getSelectedAndRightAnswers,
+  getQuestions,
+} from './review/review.selector';

@@ -4,7 +4,7 @@ import { ConfigService } from './config.service';
 import {
   Question,
   SelectedAnswer,
-  SelectedAndRightAnswer,
+  EvaluationResult,
 } from '../component/elaborator-question.model';
 import { Observable } from 'rxjs';
 
@@ -12,25 +12,31 @@ import { Observable } from 'rxjs';
 export class ElaboratorService {
   constructor(private httpClient: HttpClient, private config: ConfigService) {}
 
-  getQuestion(selectedQuestionIds: string[]): Observable<Question> {
+  getQuestion(answerIds: string[]): Observable<Question> {
     const questionEndpoint = this.config.getQuestionEndpoint();
-    const requestParams = new HttpParams();
-    selectedQuestionIds.forEach((selectedQuestionId) =>
-      requestParams.append('answerId', selectedQuestionId)
+    let requestParams = new HttpParams();
+    answerIds.forEach(
+      (answerId) => (requestParams = requestParams.append('answerId', answerId))
     );
 
     return this.httpClient.get<Question>(questionEndpoint, {
       params: requestParams,
+      withCredentials: true,
     });
   }
 
   postSelectedAnswers(
     selectedAnswers: SelectedAnswer[]
-  ): Observable<SelectedAndRightAnswer[]> {
+  ): Observable<EvaluationResult> {
     const selectedAnswersEndpoint = this.config.getSelectedAnswersEndpoint();
-    return this.httpClient.post<SelectedAndRightAnswer[]>(
+    return this.httpClient.post<EvaluationResult>(
       selectedAnswersEndpoint,
-      { selectedAnswers }
+      {
+        selectedAnswers,
+      },
+      {
+        withCredentials: true,
+      }
     );
   }
 }

@@ -5,14 +5,14 @@ import {
   OnInit,
   ChangeDetectorRef,
   ViewEncapsulation,
+  OnDestroy,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { Question, SelectedAndRightAnswer } from '../elaborator-question.model';
 import { AppState } from '../../app.module';
 import { tap, take, filter } from 'rxjs/operators';
-import { getQuestions } from '../..';
-import { getSelectedAndRightAnswers } from '../../state/elaborator/elaborator.selector';
+import { getQuestions, getSelectedAndRightAnswers, getScore } from '../..';
 import { Router } from '@angular/router';
 
 enum AnswerSummaryState {
@@ -28,16 +28,21 @@ enum AnswerSummaryState {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class ElaboratorReviewLobbyComponent implements OnInit {
+export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
   @HostBinding('class.elaborator-review-lobby') hostCss = true;
 
   questions: Question[];
+  score: number;
   selectedAndRightAnswersMap: Map<
     string,
     SelectedAndRightAnswer & { answerSummaryState: AnswerSummaryState }
   >;
   questionPreview: false;
+  isLoading = true;
+
   answerSummaryState = AnswerSummaryState;
+
+  private data$$: Subscription | undefined;
 
   constructor(
     private store: Store<AppState>,
@@ -46,25 +51,27 @@ export class ElaboratorReviewLobbyComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const sub = combineLatest([
+    this.data$$ = combineLatest([
       this.store.select(getSelectedAndRightAnswers),
+      this.store.select(getScore),
       this.store.select(getQuestions),
     ])
       .pipe(
-        tap(([, questions]) => {
+        tap(([, , questions]) => {
+          // TODO if not in store yet, query from vackend
           if (!questions?.length) {
             this.router.navigate(['']);
           }
         }),
         filter(
-          ([selectedAndRightAnswers, questions]) =>
-            !!selectedAndRightAnswers && !!questions
-        ),
-        take(1)
+          ([selectedAndRightAnswers, , questions]) =>
+            !!selectedAndRightAnswers?.length && !!questions?.length
+        )
       )
       .subscribe(
-        ([selectedAndRightAnswers, questions]: [
+        ([selectedAndRightAnswers, score, questions]: [
           SelectedAndRightAnswer[],
+          number,
           Question[]
         ]) => {
           this.selectedAndRightAnswersMap = new Map();
@@ -94,9 +101,15 @@ export class ElaboratorReviewLobbyComponent implements OnInit {
             );
           });
           this.questions = questions;
+          this.score = score;
+          this.isLoading = false;
           this.cdRef.markForCheck();
         }
       );
+  }
+
+  ngOnDestroy() {
+    this.data$$?.unsubscribe();
   }
 
   private intersect(arrA: string[], arrB: string[]): string[] {

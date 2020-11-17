@@ -6,12 +6,12 @@ import { ElaboratorAction } from './elaborator.action';
 import { ElaboratorService } from '../../service';
 import {
   Question,
-  SelectedAndRightAnswer,
+  EvaluationResult,
 } from '../../component/elaborator-question.model';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app';
-import { getQuestions, getSelectedAnswers } from './elaborator.selector';
+import { getSelectedAnswers } from './elaborator.selector';
 
 @Injectable()
 export class ElaboratorEffect {
@@ -38,8 +38,8 @@ export class ElaboratorEffect {
       withLatestFrom(this.store.select(getSelectedAnswers)),
       mergeMap(([, selectedAnswers]) =>
         this.service.postSelectedAnswers(selectedAnswers).pipe(
-          map((selectedAnswersResponse: SelectedAndRightAnswer[]) =>
-            ElaboratorAction.evaluateAnswersSuccess(selectedAnswersResponse)
+          map((evaluationResult: EvaluationResult) =>
+            ElaboratorAction.evaluateAnswersSuccess(evaluationResult)
           ),
           catchError((err) => {
             console.error(JSON.stringify(err));

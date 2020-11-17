@@ -2,7 +2,7 @@ import { createAction } from '@ngrx/store';
 import {
   Question,
   SelectedAnswer,
-  SelectedAndRightAnswer,
+  EvaluationResult,
 } from '../../component/elaborator-question.model';
 
 const ACTION_PREFIX = 'Elaborator';
@@ -33,8 +33,8 @@ export namespace ElaboratorAction {
 
   export const evaluateAnswersSuccess = createAction(
     `${ACTION_PREFIX} Evaluate Answers Success`,
-    (selectedAndRightAnswers: SelectedAndRightAnswer[]) => ({
-      selectedAndRightAnswers,
+    (evaluationResult: EvaluationResult) => ({
+      evaluationResult,
     })
   );
 

@@ -13,8 +13,8 @@ import {
   ElaboratorAction,
   getLoadingCurrentQuestion,
 } from 'src/app/state';
-import { Subscription, merge, combineLatest } from 'rxjs';
-import { Question, SelectedAndRightAnswer } from '../elaborator-question.model';
+import { Subscription, merge } from 'rxjs';
+import { Question } from '../elaborator-question.model';
 import { AppState } from './../../app.module';
 import {
   LocalStorageService,
@@ -22,11 +22,7 @@ import {
   ANSWER_IDS_STORAGE_KEY,
   ConfigService,
 } from './../../service';
-import { tap, take, filter } from 'rxjs/operators';
-import {
-  getSelectedAndRightAnswers,
-  getQuestions,
-} from 'src/app/state/elaborator/elaborator.selector';
+import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
