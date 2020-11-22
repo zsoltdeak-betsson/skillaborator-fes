@@ -7,6 +7,10 @@ import {
   EvaluationResult,
 } from '../component/elaborator-question.model';
 import { Observable } from 'rxjs';
+import {
+  LocalStorageService,
+  PREVIOUS_QUESTION_IDS_STORAGE_KEY,
+} from './utils/localstorage.service';
 
 @Injectable({ providedIn: 'root' })
 export class ElaboratorService {
@@ -14,9 +18,21 @@ export class ElaboratorService {
 
   getQuestion(answerIds: string[]): Observable<Question> {
     const questionEndpoint = this.config.getQuestionEndpoint();
+    const previousQuestionIds =
+      LocalStorageService.getForKey(PREVIOUS_QUESTION_IDS_STORAGE_KEY) ?? [];
+
     let requestParams = new HttpParams();
+
     answerIds.forEach(
       (answerId) => (requestParams = requestParams.append('answerId', answerId))
+    );
+
+    previousQuestionIds.forEach(
+      (previousQuestionId) =>
+        (requestParams = requestParams.append(
+          'previousQuestionId',
+          previousQuestionId
+        ))
     );
 
     return this.httpClient.get<Question>(questionEndpoint, {

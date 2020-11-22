@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
 import { ElaboratorAction } from './elaborator.action';
-import { ElaboratorService } from '../../service';
+import { ElaboratorService, LocalStorageService } from '../../service';
 import {
   Question,
   EvaluationResult,
@@ -11,7 +11,8 @@ import {
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app';
-import { getSelectedAnswers } from './elaborator.selector';
+import { getSelectedAnswers, getQuestions } from './elaborator.selector';
+import { PREVIOUS_QUESTION_IDS_STORAGE_KEY } from 'src/app/service/utils/localstorage.service';
 
 @Injectable()
 export class ElaboratorEffect {
@@ -20,6 +21,12 @@ export class ElaboratorEffect {
       ofType(ElaboratorAction.getQuestion),
       mergeMap(({ selectedAnswerIds }) =>
         this.service.getQuestion(selectedAnswerIds).pipe(
+          tap((question: Question) => {
+            LocalStorageService.push(
+              PREVIOUS_QUESTION_IDS_STORAGE_KEY,
+              question.id
+            );
+          }),
           map((question: Question) =>
             ElaboratorAction.getQuestionSuccess(question)
           ),
@@ -38,8 +45,9 @@ export class ElaboratorEffect {
       withLatestFrom(this.store.select(getSelectedAnswers)),
       mergeMap(([, selectedAnswers]) =>
         this.service.postSelectedAnswers(selectedAnswers).pipe(
-          map((evaluationResult: EvaluationResult) =>
-            ElaboratorAction.evaluateAnswersSuccess(evaluationResult)
+        withLatestFrom(this.store.select(getQuestions)),
+          map(([evaluationResult, questions]: [EvaluationResult, Question[]]) =>
+            ElaboratorAction.evaluateAnswersSuccess(evaluationResult, questions)
           ),
           catchError((err) => {
             console.error(JSON.stringify(err));

@@ -1,6 +1,8 @@
 .elaborator-review-lobby {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   height: 100%;
 
   &-accordion {
@@ -8,30 +10,34 @@
     flex-direction: column;
     justify-content: center;
     width: 50%;
-  }
 
-  .mat-expansion-panel-header-description {
-    flex-grow: 0;
-  }
+    .mat-expansion-panel-header-description {
+      flex-grow: 0;
+    }
 
-  .right-answer {
-    svg {
-      fill: green;
-      color: green;
+    .right-answer {
+      svg {
+        fill: green;
+        color: green;
+      }
+    }
+
+    .wrong-answer {
+      svg {
+        fill: red;
+        color: red;
+      }
+    }
+
+    .missed-answer {
+      svg {
+        fill: darkgoldenrod;
+        color: darkgoldenrod;
+      }
     }
   }
 
-  .wrong-answer {
-    svg {
-      fill: red;
-      color: red;
-    }
-  }
-
-  .missed-answer {
-    svg {
-      fill: darkgoldenrod;
-      color: darkgoldenrod;
-    }
+  mat-spinner {
+    margin: auto;
   }
 }

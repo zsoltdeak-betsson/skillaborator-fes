@@ -21,7 +21,6 @@ import {
 } from './state';
 import { EffectsModule } from '@ngrx/effects';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-import { ElabratorResultComponent } from './component/elabrator-result/elabrator-result.component';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,7 +36,6 @@ export interface AppState {
     AppComponent,
     ElaboratorLobbyComponent,
     ElaboratorQuestionComponent,
-    ElabratorResultComponent,
     ElaboratorReviewLobbyComponent,
   ],
   imports: [

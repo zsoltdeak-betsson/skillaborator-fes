@@ -7,12 +7,14 @@ import { ElaboratorAction } from './elaborator.action';
 
 export interface ElaboratorState {
   currentQuestion: Question;
+  questions: Question[];
   busy: boolean;
   selectedAnswers?: SelectedAnswer[];
 }
 
 const initialState = {
   currentQuestion: undefined,
+  questions: [],
   busy: true,
 };
 
@@ -25,6 +27,7 @@ export const elaboratorReducer = createReducer(
   on(ElaboratorAction.getQuestionSuccess, (state, { question }) => ({
     ...state,
     currentQuestion: question,
+    questions: [...state.questions, question],
     busy: false,
   })),
   on(ElaboratorAction.getQuestionFail, (state) => ({
@@ -40,6 +43,5 @@ export const elaboratorReducer = createReducer(
         selectedAnswers: [...oldAnswers, selectedAnswer],
       };
     }
-  ),
-
+  )
 );

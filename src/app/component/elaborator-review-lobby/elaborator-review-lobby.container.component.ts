@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { combineLatest, Subscription } from 'rxjs';
 import { Question, SelectedAndRightAnswer } from '../elaborator-question.model';
 import { AppState } from '../../app.module';
-import { tap, take, filter } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { getQuestions, getSelectedAndRightAnswers, getScore } from '../..';
 import { Router } from '@angular/router';
 
@@ -58,7 +58,7 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
     ])
       .pipe(
         tap(([, , questions]) => {
-          // TODO if not in store yet, query from vackend
+          // TODO if not in store yet, query from backend
           if (!questions?.length) {
             this.router.navigate(['']);
           }

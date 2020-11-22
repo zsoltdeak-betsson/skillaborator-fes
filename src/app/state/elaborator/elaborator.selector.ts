@@ -8,3 +8,6 @@ export const getLoadingCurrentQuestion = (state: AppState) =>
 
 export const getSelectedAnswers = (state: AppState) =>
   state.elaborator.selectedAnswers;
+
+export const getQuestions = (state: AppState) =>
+  state.elaborator.questions;

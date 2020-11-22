@@ -33,8 +33,9 @@ export namespace ElaboratorAction {
 
   export const evaluateAnswersSuccess = createAction(
     `${ACTION_PREFIX} Evaluate Answers Success`,
-    (evaluationResult: EvaluationResult) => ({
+    (evaluationResult: EvaluationResult, questions: Question[]) => ({
       evaluationResult,
+      questions,
     })
   );
 
