@@ -1,7 +1,7 @@
 <ng-container *ngIf="!isLoading">
-  <!-- TODO styling score -->
   <div class="elaborator-review-lobby-score-container">
     <span>{{ score }}</span>
+    <canvas #scoreChart></canvas>
   </div>
   <mat-accordion class="elaborator-review-lobby-accordion">
     <mat-expansion-panel *ngFor="let question of questions; index as i">
@@ -12,7 +12,6 @@
             selectedAndRightAnswersMap?.get(question.id).answerSummaryState
           "
         >
-          <!-- TODO missed right answer -->
           <mat-icon
             *ngSwitchCase="answerSummaryState.Right"
             class="right-answer"
