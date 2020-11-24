@@ -1,0 +1,11 @@
+@import "~@angular/material/theming";
+
+@mixin elaborator-review-lobby-theme($theme) {
+  $config: mat-get-color-config($theme);
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($config, primary);
+
+  .elaborator-review-lobby-score-container-score {
+    color: mat-color($primary);
+  }
+}

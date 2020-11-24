@@ -1,6 +1,19 @@
-<ng-container *ngIf="!isLoading">
+<a
+  mat-raised-button
+  color="primary"
+  class="elaborator-review-lobby-new-evaluation"
+  routerLink="/"
+>
+  New evaluation
+</a>
+<div *ngIf="!isLoading" class="elaborator-review-lobby-container">
   <div class="elaborator-review-lobby-score-container">
-    <span>{{ score }}</span>
+    <span
+      class="elaborator-review-lobby-score-container-score"
+      [ngClass]="{ beginner: isBeginner, medior: isMedior, pro: isPro }"
+    >
+      {{ score }}
+    </span>
     <canvas #scoreChart></canvas>
   </div>
   <mat-accordion class="elaborator-review-lobby-accordion">
@@ -48,6 +61,6 @@
       </ng-template>
     </mat-expansion-panel>
   </mat-accordion>
-</ng-container>
+</div>
 
 <mat-spinner *ngIf="isLoading"></mat-spinner>

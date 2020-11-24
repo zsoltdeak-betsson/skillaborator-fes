@@ -37,6 +37,7 @@ enum AnswerSummaryState {
 })
 export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
   @HostBinding('class.elaborator-review-lobby') hostCss = true;
+  @HostBinding('class.elaborator-review-lobby-responsive') responsiveCss = true;
 
   @ViewChild('scoreChart') set scoreChart(scoreChart: ElementRef) {
     this._scoreChart = scoreChart;
