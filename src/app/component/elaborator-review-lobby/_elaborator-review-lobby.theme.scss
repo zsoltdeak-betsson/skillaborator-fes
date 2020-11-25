@@ -10,7 +10,15 @@
 
   .elaborator-review-lobby {
     &-score-container-score {
-      color: mat-color($primary);
+      &.beginner {
+        color: lightblue;
+      }
+      &.medior {
+        color: darkblue;
+      }
+      &.pro {
+        color: mat-color($primary);
+      }
     }
 
     @include elaborator-question-theme(

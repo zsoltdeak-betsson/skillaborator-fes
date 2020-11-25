@@ -55,6 +55,10 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
   questionPreview: false;
   isLoading = true;
 
+  isBeginner = false;
+  isMedior = false;
+  isPro = false;
+
   answerSummaryState = AnswerSummaryState;
 
   private data$$: Subscription | undefined;
@@ -120,6 +124,10 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
           this.questions = questions;
           this.score = score;
           this.isLoading = false;
+
+          this.isBeginner = score < 120;
+          this.isMedior = score < 200 && !this.isBeginner;
+          this.isPro = !this.isBeginner && !this.isMedior;
 
           this.cdRef.markForCheck();
         }
