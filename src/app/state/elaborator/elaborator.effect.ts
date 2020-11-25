@@ -27,9 +27,10 @@ export class ElaboratorEffect {
               question.id
             );
           }),
-          map((question: Question) =>
-            ElaboratorAction.getQuestionSuccess(question)
-          ),
+          map((question: Question) => {
+            const randomizedQuestion = this.randomize(question);
+            return ElaboratorAction.getQuestionSuccess(randomizedQuestion);
+          }),
           catchError((err) => {
             console.error(JSON.stringify(err));
             return of(ElaboratorAction.getQuestionFail());
@@ -45,7 +46,7 @@ export class ElaboratorEffect {
       withLatestFrom(this.store.select(getSelectedAnswers)),
       mergeMap(([, selectedAnswers]) =>
         this.service.postSelectedAnswers(selectedAnswers).pipe(
-        withLatestFrom(this.store.select(getQuestions)),
+          withLatestFrom(this.store.select(getQuestions)),
           map(([evaluationResult, questions]: [EvaluationResult, Question[]]) =>
             ElaboratorAction.evaluateAnswersSuccess(evaluationResult, questions)
           ),
@@ -57,6 +58,15 @@ export class ElaboratorEffect {
       )
     )
   );
+
+  private randomize(question: Question): Question {
+    const randomIndex1 = Math.floor(Math.random() * question.answers.length);
+    const randomIndex2 = Math.floor(Math.random() * question.answers.length);
+    const temp = question.answers[randomIndex1];
+    question.answers[randomIndex1] = question.answers[randomIndex2];
+    question.answers[randomIndex2] = temp;
+    return question;
+  }
 
   constructor(
     private actions$: Actions,
