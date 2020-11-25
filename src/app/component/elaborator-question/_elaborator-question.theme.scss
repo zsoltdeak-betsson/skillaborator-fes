@@ -1,0 +1,32 @@
+@import "~@angular/material/theming";
+
+@mixin elaborator-question-theme($theme) {
+  $elaborator-question-theme: map-merge(
+    (
+      "headline-font-size": 1.7rem,
+      "headline-line-height": 2rem,
+      "code-font-size": 1.2rem,
+      "code-line-height": 1.4rem,
+      "content-font-size": 1.2rem,
+      "content-line-height": 1.4rem,
+    ),
+    $theme
+  );
+
+  .elaborator-question {
+    &-question {
+      font-size: map-get($elaborator-question-theme, headline-font-size);
+      line-height: map-get($elaborator-question-theme, headline-line-height);
+    }
+
+    &-code {
+      font-size: map-get($elaborator-question-theme, code-font-size);
+      line-height: map-get($elaborator-question-theme, code-line-height);
+    }
+
+    &-content {
+      font-size: map-get($elaborator-question-theme, content-font-size);
+      line-height: map-get($elaborator-question-theme, content-line-height);
+    }
+  }
+}
