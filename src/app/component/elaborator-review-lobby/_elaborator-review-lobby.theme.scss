@@ -9,7 +9,7 @@
   $primary: map-get($color-config, primary);
 
   .elaborator-review-lobby {
-    &-score-container-score {
+    &-score-container {
       &.beginner {
         color: lightblue;
       }
@@ -18,6 +18,16 @@
       }
       &.pro {
         color: mat-color($primary);
+      }
+
+      &-score {
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+
+      &-message {
+        font-size: 1rem;
+        line-height: 1.1rem;
       }
     }
 

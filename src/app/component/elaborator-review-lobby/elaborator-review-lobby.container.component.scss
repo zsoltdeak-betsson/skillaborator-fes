@@ -2,7 +2,8 @@
 
 @media only screen and (min-width: 768px) {
   .elaborator-review-lobby.elaborator-review-lobby-responsive {
-    .elaborator-review-lobby-score-container {
+    .elaborator-review-lobby-score-container,
+    .elaborator-review-lobby-score-chart-container {
       width: 40%;
     }
 
@@ -63,14 +64,21 @@
     }
   }
 
-  &-score-container {
+  &-score-container,
+  &-score-chart-container {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+  }
 
-    &-score {
-      align-self: center;
-    }
+  &-score-container {
+    margin: 10px 0 5px 0;
+  }
+
+  &-score-chart-container {
+    width: 60%;
   }
 
   mat-spinner {

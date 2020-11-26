@@ -58,6 +58,7 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
   isBeginner = false;
   isMedior = false;
   isPro = false;
+  scoreMessage: string | undefined;
 
   answerSummaryState = AnswerSummaryState;
 
@@ -128,6 +129,12 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
           this.isBeginner = score < 120;
           this.isMedior = score < 200 && !this.isBeginner;
           this.isPro = !this.isBeginner && !this.isMedior;
+
+          this.scoreMessage = this.isBeginner
+            ? 'You are at beginner level, keep learning!'
+            : this.isMedior
+            ? 'Congratulations, you are at a professional level'
+            : 'Congratulations, you are a tech god emperor';
 
           this.cdRef.markForCheck();
         }
