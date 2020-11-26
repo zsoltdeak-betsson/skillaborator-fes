@@ -4,33 +4,55 @@ import { ConfigService } from './config.service';
 import {
   Question,
   SelectedAnswer,
-  SelectedAndRightAnswer,
+  EvaluationResult,
 } from '../component/elaborator-question.model';
 import { Observable } from 'rxjs';
+import {
+  LocalStorageService,
+  PREVIOUS_QUESTION_IDS_STORAGE_KEY,
+} from './utils/localstorage.service';
 
 @Injectable({ providedIn: 'root' })
 export class ElaboratorService {
   constructor(private httpClient: HttpClient, private config: ConfigService) {}
 
-  getQuestion(selectedQuestionIds: string[]): Observable<Question> {
+  getQuestion(answerIds: string[]): Observable<Question> {
     const questionEndpoint = this.config.getQuestionEndpoint();
-    const requestParams = new HttpParams();
-    selectedQuestionIds.forEach((selectedQuestionId) =>
-      requestParams.append('answerId', selectedQuestionId)
+    const previousQuestionIds =
+      LocalStorageService.getForKey(PREVIOUS_QUESTION_IDS_STORAGE_KEY) ?? [];
+
+    let requestParams = new HttpParams();
+
+    answerIds.forEach(
+      (answerId) => (requestParams = requestParams.append('answerId', answerId))
+    );
+
+    previousQuestionIds.forEach(
+      (previousQuestionId) =>
+        (requestParams = requestParams.append(
+          'previousQuestionId',
+          previousQuestionId
+        ))
     );
 
     return this.httpClient.get<Question>(questionEndpoint, {
       params: requestParams,
+      withCredentials: true,
     });
   }
 
   postSelectedAnswers(
     selectedAnswers: SelectedAnswer[]
-  ): Observable<SelectedAndRightAnswer[]> {
+  ): Observable<EvaluationResult> {
     const selectedAnswersEndpoint = this.config.getSelectedAnswersEndpoint();
-    return this.httpClient.post<SelectedAndRightAnswer[]>(
+    return this.httpClient.post<EvaluationResult>(
       selectedAnswersEndpoint,
-      { selectedAnswers }
+      {
+        selectedAnswers,
+      },
+      {
+        withCredentials: true,
+      }
     );
   }
 }

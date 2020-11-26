@@ -1,22 +1,20 @@
 import {
   Question,
   SelectedAnswer,
-  SelectedAndRightAnswer,
 } from '../../component/elaborator-question.model';
-import { createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { ElaboratorAction } from './elaborator.action';
 
 export interface ElaboratorState {
-  questions: Question[];
   currentQuestion: Question;
+  questions: Question[];
   busy: boolean;
   selectedAnswers?: SelectedAnswer[];
-  selectedAndRightAnswers?: SelectedAndRightAnswer[];
 }
 
 const initialState = {
-  questions: [],
   currentQuestion: undefined,
+  questions: [],
   busy: true,
 };
 
@@ -28,8 +26,8 @@ export const elaboratorReducer = createReducer(
   })),
   on(ElaboratorAction.getQuestionSuccess, (state, { question }) => ({
     ...state,
-    questions: [...state.questions, question],
     currentQuestion: question,
+    questions: [...state.questions, question],
     busy: false,
   })),
   on(ElaboratorAction.getQuestionFail, (state) => ({
@@ -45,25 +43,5 @@ export const elaboratorReducer = createReducer(
         selectedAnswers: [...oldAnswers, selectedAnswer],
       };
     }
-  ),
-  on(ElaboratorAction.evaluateAnswers, (state: ElaboratorState) => ({
-    ...state,
-    busy: true,
-  })),
-  on(
-    ElaboratorAction.evaluateAnswersSuccess,
-    (state: ElaboratorState, { selectedAndRightAnswers }) => {
-      return {
-        ...state,
-        selectedAnswers: null,
-        selectedAndRightAnswers,
-        currentQuestion: state.questions[0],
-        busy: false,
-      };
-    }
-  ),
-  on(ElaboratorAction.evaluateAnswersFail, (state: ElaboratorState) => ({
-    ...state,
-    busy: false,
-  }))
+  )
 );

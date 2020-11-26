@@ -1,0 +1,45 @@
+@import "~@angular/material/theming";
+@import "../elaborator-question/elaborator-question.theme";
+
+@mixin elaborator-review-lobby-theme($theme) {
+  $color-config: mat-get-color-config($theme);
+  $typography-config: mat-typography-config();
+
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($color-config, primary);
+
+  .elaborator-review-lobby {
+    &-score-container {
+      &.beginner {
+        color: lightblue;
+      }
+      &.medior {
+        color: darkblue;
+      }
+      &.pro {
+        color: mat-color($primary);
+      }
+
+      &-score {
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+
+      &-message {
+        font-size: 1rem;
+        line-height: 1.1rem;
+      }
+    }
+
+    @include elaborator-question-theme(
+      (
+        "headline-font-size": mat-font-size($typography-config, title),
+        "headline-line-height": mat-line-height($typography-config, title),
+        "code-font-size": mat-font-size($typography-config, body-2),
+        "code-line-height": mat-line-height($typography-config, body-2),
+        "content-font-size": mat-font-size($typography-config, body-1),
+        "content-line-height": mat-line-height($typography-config, body-1),
+      )
+    );
+  }
+}

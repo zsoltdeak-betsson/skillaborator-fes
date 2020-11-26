@@ -1,8 +1,8 @@
-<label class="elaborator-question-question mat-headline">
+<label class="elaborator-question-question">
   {{ question.value }}
 </label>
 <pre *ngIf="question.code">
-  <code [highlight]="question.code.value" [languages]="[question.code.language]"></code>
+  <code [highlight]="question.code.value" [languages]="[question.code.language]" class="elaborator-question-code"></code>
 </pre>
 <div class="elaborator-question-content">
   <mat-radio-group
@@ -33,24 +33,26 @@
   </mat-radio-group>
 
   <ul *ngIf="question.multi" class="elaborator-question-answer-group">
-    <li *ngFor="let answer of question.answers">
+    <li
+      *ngFor="let answer of question.answers"
+      class="elaborator-question-answer"
+      [ngClass]="{
+        'right-answer':
+          selectedAndRightAnswer?.answerIds.includes(answer.id) &&
+          isRight(answer.id),
+        'missed-answer':
+          !selectedAndRightAnswer?.answerIds.includes(answer.id) &&
+          isRight(answer.id),
+        'wrong-answer':
+          selectedAndRightAnswer?.answerIds.includes(answer.id) &&
+          !isRight(answer.id),
+        'read-only': readOnly
+      }"
+    >
       <mat-checkbox
-        class="elaborator-question-answer"
         [value]="answer.id"
         [checked]="selectedAndRightAnswer?.answerIds.includes(answer.id)"
         [disabled]="readOnly"
-        [ngClass]="{
-          'right-answer':
-            selectedAndRightAnswer?.answerIds.includes(answer.id) &&
-            isRight(answer.id),
-          'missed-answer':
-            !selectedAndRightAnswer?.answerIds.includes(answer.id) &&
-            isRight(answer.id),
-          'wrong-answer':
-            selectedAndRightAnswer?.answerIds.includes(answer.id) &&
-            !isRight(answer.id),
-          'read-only': readOnly
-        }"
         (change)="onCheckboxSelect($event, answer.id)"
       >
         <span>{{ answer.value }}</span>
@@ -59,14 +61,8 @@
   </ul>
 </div>
 <div class="elaborator-question-footer" *ngIf="!readOnly">
-  <!-- TODO back -->
-  <button mat-raised-button disabled>Previous question</button>
-  <span class="elaborator-question-counter"
-    >{{ currentQuestionNumber }}/{{ maxQuestionCount }}</span
-  >
   <button
     *ngIf="currentQuestionNumber !== maxQuestionCount"
-    class="elaborator-question-next-button"
     mat-raised-button
     color="primary"
     [disabled]="!selectedAnswerIds.length"
@@ -76,7 +72,6 @@
   </button>
   <button
     *ngIf="currentQuestionNumber === maxQuestionCount"
-    class="elaborator-question-next-button"
     mat-raised-button
     color="primary"
     [disabled]="!selectedAnswerIds.length"
@@ -84,4 +79,7 @@
   >
     Evaluate
   </button>
+  <span class="elaborator-question-counter"
+    >{{ currentQuestionNumber }}/{{ maxQuestionCount }}</span
+  >
 </div>

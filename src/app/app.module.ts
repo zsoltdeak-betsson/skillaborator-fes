@@ -12,10 +12,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { StoreModule } from '@ngrx/store';
-import { ElaboratorEffect, ElaboratorState, elaboratorReducer } from './state';
+import {
+  ElaboratorEffect,
+  ElaboratorState,
+  elaboratorReducer,
+  ReviewState,
+  reviewReducer,
+} from './state';
 import { EffectsModule } from '@ngrx/effects';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-import { ElabratorResultComponent } from './component/elabrator-result/elabrator-result.component';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 export interface AppState {
   elaborator: ElaboratorState;
+  review: ReviewState;
 }
 
 @NgModule({
@@ -30,7 +36,6 @@ export interface AppState {
     AppComponent,
     ElaboratorLobbyComponent,
     ElaboratorQuestionComponent,
-    ElabratorResultComponent,
     ElaboratorReviewLobbyComponent,
   ],
   imports: [
@@ -47,7 +52,10 @@ export interface AppState {
     MatExpansionModule,
     MatIconModule,
     MatCheckboxModule,
-    StoreModule.forRoot({ elaborator: elaboratorReducer }),
+    StoreModule.forRoot({
+      elaborator: elaboratorReducer,
+      review: reviewReducer,
+    }),
     EffectsModule.forRoot([ElaboratorEffect]),
   ],
   providers: [

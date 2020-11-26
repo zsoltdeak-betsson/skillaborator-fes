@@ -25,3 +25,8 @@ export interface Code {
   value: string;
   language: string;
 }
+
+export interface EvaluationResult {
+  selectedAndRightAnswers: SelectedAndRightAnswer[];
+  score: number;
+}

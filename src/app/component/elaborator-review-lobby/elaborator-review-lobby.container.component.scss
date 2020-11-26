@@ -1,37 +1,87 @@
+@import "~@angular/material/theming";
+
+@media only screen and (min-width: 768px) {
+  .elaborator-review-lobby.elaborator-review-lobby-responsive {
+    .elaborator-review-lobby-score-container,
+    .elaborator-review-lobby-score-chart-container {
+      width: 40%;
+    }
+
+    .elaborator-review-lobby-accordion {
+      width: 60%;
+    }
+  }
+}
+
 .elaborator-review-lobby {
-  display: flex;
-  justify-content: center;
   height: 100%;
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+
+  &-container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+  }
+
+  & &-new-evaluation {
+    margin: 22px 0 0 12px;
+  }
 
   &-accordion {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
-  }
+    width: 90%;
+    margin-bottom: 22px;
 
-  .mat-expansion-panel-header-description {
-    flex-grow: 0;
-  }
+    .mat-expansion-panel-header-description {
+      flex-grow: 0;
+    }
 
-  .right-answer {
-    svg {
-      fill: green;
-      color: green;
+    .right-answer {
+      svg {
+        fill: green;
+        color: green;
+      }
+    }
+
+    .wrong-answer {
+      svg {
+        fill: red;
+        color: red;
+      }
+    }
+
+    .missed-answer {
+      svg {
+        fill: darkgoldenrod;
+        color: darkgoldenrod;
+      }
     }
   }
 
-  .wrong-answer {
-    svg {
-      fill: red;
-      color: red;
-    }
+  &-score-container,
+  &-score-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 80%;
   }
 
-  .missed-answer {
-    svg {
-      fill: darkgoldenrod;
-      color: darkgoldenrod;
-    }
+  &-score-container {
+    margin: 10px 0 5px 0;
+  }
+
+  &-score-chart-container {
+    width: 60%;
+  }
+
+  mat-spinner {
+    margin: auto;
   }
 }

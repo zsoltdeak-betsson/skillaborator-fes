@@ -13,21 +13,13 @@ import {
   ElaboratorAction,
   getLoadingCurrentQuestion,
 } from 'src/app/state';
-import { Subscription, merge, combineLatest } from 'rxjs';
-import { Question, SelectedAndRightAnswer } from '../elaborator-question.model';
+import { Subscription, merge } from 'rxjs';
+import { Question } from '../elaborator-question.model';
 import { AppState } from './../../app.module';
-import {
-  LocalStorageService,
-  QUESTION_IDS_STORAGE_KEY,
-  ANSWER_IDS_STORAGE_KEY,
-  ConfigService,
-} from './../../service';
-import { tap, take, filter } from 'rxjs/operators';
-import {
-  getSelectedAndRightAnswers,
-  getQuestions,
-} from 'src/app/state/elaborator/elaborator.selector';
+import { ConfigService, LocalStorageService } from './../../service';
+import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { PREVIOUS_QUESTION_IDS_STORAGE_KEY } from 'src/app/service/utils/localstorage.service';
 
 @Component({
   selector: 'sk-elaborator-lobby',
@@ -57,9 +49,7 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    LocalStorageService.setForKey(QUESTION_IDS_STORAGE_KEY, []);
-    LocalStorageService.setForKey(ANSWER_IDS_STORAGE_KEY, []);
-
+    LocalStorageService.remove(PREVIOUS_QUESTION_IDS_STORAGE_KEY);
     this.store.dispatch(ElaboratorAction.getQuestion());
 
     const getCurrentQuestion$ = this.store.select(getCurrentQuestion).pipe(
@@ -99,25 +89,7 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
     this.router.navigate(['/review']);
   }
 
-  // TODO use this for sg....
-  private saveAnswerToLocal(selectedAnswerIds: string[]) {
-    const previousQuestionIds =
-      LocalStorageService.getForKey(QUESTION_IDS_STORAGE_KEY) ?? [];
-    const previousAnswerIds =
-      LocalStorageService.getForKey(ANSWER_IDS_STORAGE_KEY) ?? [];
-
-    previousQuestionIds.push(this.question.id);
-    previousAnswerIds.push(selectedAnswerIds);
-
-    LocalStorageService.setForKey(
-      QUESTION_IDS_STORAGE_KEY,
-      previousQuestionIds
-    );
-    LocalStorageService.setForKey(ANSWER_IDS_STORAGE_KEY, previousAnswerIds);
-  }
-
   private saveAnswer(selectedAnswerIds: string[]) {
-    this.saveAnswerToLocal(selectedAnswerIds);
     this.store.dispatch(
       ElaboratorAction.saveSelectedAnswer({
         questionId: this.question.id,
