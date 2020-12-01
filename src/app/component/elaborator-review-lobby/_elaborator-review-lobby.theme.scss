@@ -11,10 +11,10 @@
   .elaborator-review-lobby {
     &-score-container {
       &.beginner {
-        color: lightblue;
+        color: mat-color($mat-light-blue, 400);
       }
       &.medior {
-        color: darkblue;
+        color: mat-color($mat-indigo, 400);
       }
       &.pro {
         color: mat-color($primary);

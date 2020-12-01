@@ -1,8 +1,13 @@
-<label class="elaborator-question-question">
-  {{ question.value }}
-</label>
+<div class="elaborator-question-heading">
+  <label class="elaborator-question-question">
+    {{ question.value }}
+  </label>
+  <span *ngIf="question.code" class="elaborator-question-code-language">
+    {{ question.code.language }}
+  </span>
+</div>
 <pre *ngIf="question.code">
-  <code [highlight]="question.code.value" [languages]="[question.code.language]" class="elaborator-question-code"></code>
+  <code [highlight]="question.code.value" [languages]="[question.code.language]" class="elaborator-question-code-value"></code>
 </pre>
 <div class="elaborator-question-content">
   <mat-radio-group

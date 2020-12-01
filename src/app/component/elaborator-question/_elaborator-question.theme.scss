@@ -9,6 +9,8 @@
       "code-line-height": 1.4rem,
       "content-font-size": 1.2rem,
       "content-line-height": 1.4rem,
+      "language-font-size": 0.5rem,
+      "language-line-height": 0.6rem,
     ),
     $theme
   );
@@ -19,7 +21,12 @@
       line-height: map-get($elaborator-question-theme, headline-line-height);
     }
 
-    &-code {
+    &-code-language {
+      font-size: map-get($elaborator-question-theme, language-font-size);
+      line-height: map-get($elaborator-question-theme, language-line-height);
+    }
+
+    &-code-value {
       font-size: map-get($elaborator-question-theme, code-font-size);
       line-height: map-get($elaborator-question-theme, code-line-height);
     }

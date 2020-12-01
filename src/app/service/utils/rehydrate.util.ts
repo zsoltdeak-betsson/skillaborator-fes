@@ -1,14 +1,14 @@
 import { Action, On, ActionReducer, createReducer } from '@ngrx/store';
 import { LocalStorageService } from './localstorage.service';
-import { SELECTED_ANSWERS_STORAGE_KEY } from './localstorage.service';
 
 export function createRehydrateReducer<S, A extends Action = Action>(
+  key: string,
   initialState: S,
   ...ons: On<S>[]
 ): ActionReducer<S, A> {
   // rehydrate
   const newInitialState =
-    LocalStorageService.getForKey(SELECTED_ANSWERS_STORAGE_KEY) ?? initialState;
+    LocalStorageService.getForKey(key) ?? initialState;
 
   // new reducers save state to localstorage
   const newOns: On<S>[] = [];
@@ -18,7 +18,7 @@ export function createRehydrateReducer<S, A extends Action = Action>(
       action: A
     ) => {
       const newState = oldOn.reducer(state, action);
-      LocalStorageService.setForKey(SELECTED_ANSWERS_STORAGE_KEY, newState);
+      LocalStorageService.setForKey(key, newState);
       return newState;
     };
     newOns.push({ ...oldOn, reducer: newReducer });

@@ -10,6 +10,15 @@
     margin: 10px 0 12px 0;
   }
 
+  &-heading {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-code-language {
+    align-self: flex-end;
+  }
+
   &-content {
     height: 100%;
     display: flex;
