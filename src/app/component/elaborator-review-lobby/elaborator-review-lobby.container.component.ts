@@ -21,6 +21,7 @@ import {
 } from '../../state';
 import { Router } from '@angular/router';
 import { Chart } from 'chart.js';
+import { ProfessionalLevel } from './elaborator-review-lobby.model';
 
 enum AnswerSummaryState {
   Right,
@@ -54,10 +55,8 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
   >;
   questionPreview: false;
   isLoading = true;
-
-  isBeginner = false;
-  isMedior = false;
-  isPro = false;
+  professionalLevel: ProfessionalLevel;
+  professionalLevels = ProfessionalLevel;
   scoreMessage: string | undefined;
 
   answerSummaryState = AnswerSummaryState;
@@ -126,15 +125,20 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
           this.score = score;
           this.isLoading = false;
 
-          this.isBeginner = score < 120;
-          this.isMedior = score < 200 && !this.isBeginner;
-          this.isPro = !this.isBeginner && !this.isMedior;
+          // TODO calibrated for 20 questions, make dynamic depending question count
+          this.professionalLevel =
+            score < 120
+              ? ProfessionalLevel.Beginner
+              : score < 200
+              ? ProfessionalLevel.Medior
+              : ProfessionalLevel.Pro;
 
-          this.scoreMessage = this.isBeginner
-            ? 'You are at beginner level, keep learning!'
-            : this.isMedior
-            ? 'Congratulations, you are at a professional level'
-            : 'Congratulations, you are a tech god emperor';
+          this.scoreMessage =
+            this.professionalLevel === ProfessionalLevel.Beginner
+              ? 'You are at beginner level, keep learning!'
+              : this.professionalLevel === ProfessionalLevel.Medior
+              ? 'Congratulations, you are at a professional level'
+              : 'Congratulations, you are a tech god emperor';
 
           this.cdRef.markForCheck();
         }

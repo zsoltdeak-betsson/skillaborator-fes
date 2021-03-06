@@ -7,16 +7,19 @@
   New evaluation
 </a>
 <div *ngIf="!isLoading" class="elaborator-review-lobby-container">
- <!-- TODO eliminate 3 booleans -->
   <div
     class="elaborator-review-lobby-score-container"
-    [ngClass]="{ beginner: isBeginner, medior: isMedior, pro: isPro }"
+    [ngClass]="{
+      beginner: professionalLevel === professionalLevels.Beginner,
+      medior: professionalLevel === professionalLevels.Medior,
+      pro: professionalLevel === professionalLevels.Pro
+    }"
   >
     <span class="elaborator-review-lobby-score-container-score">
       {{ score }} points
     </span>
     <span class="elaborator-review-lobby-score-container-message">
-      {{scoreMessage}}
+      {{ scoreMessage }}
     </span>
   </div>
   <div class="elaborator-review-lobby-score-chart-container">
