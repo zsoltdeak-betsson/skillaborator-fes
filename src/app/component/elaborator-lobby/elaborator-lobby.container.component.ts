@@ -16,10 +16,9 @@ import {
 import { Subscription, merge } from 'rxjs';
 import { Question } from '../elaborator-question.model';
 import { AppState } from './../../app.module';
-import { ConfigService, LocalStorageService } from './../../service';
+import { ConfigService } from './../../service';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { PREVIOUS_QUESTION_IDS_STORAGE_KEY } from 'src/app/service/utils/localstorage.service';
 
 @Component({
   selector: 'sk-elaborator-lobby',
@@ -49,7 +48,6 @@ export class ElaboratorLobbyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    LocalStorageService.remove(PREVIOUS_QUESTION_IDS_STORAGE_KEY);
     this.store.dispatch(ElaboratorAction.getQuestion());
 
     const getCurrentQuestion$ = this.store.select(getCurrentQuestion).pipe(

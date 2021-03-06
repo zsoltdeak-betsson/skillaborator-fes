@@ -5,7 +5,7 @@ import {
 import { ElaboratorAction } from '../elaborator/elaborator.action';
 import { on } from '@ngrx/store';
 import { createRehydrateReducer } from 'src/app/service';
-import { SELECTED_ANSWERS_STORAGE_KEY } from '../../service/utils/localstorage.service';
+import { SELECTED_ANSWERS_STORAGE_KEY } from '../../service/utils/storage.service';
 
 export interface ReviewState {
   selectedAndRightAnswers: SelectedAndRightAnswer[];
