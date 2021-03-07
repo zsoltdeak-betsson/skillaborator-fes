@@ -10,11 +10,8 @@ import {
 import { MatRadioChange } from '@angular/material/radio';
 import {
   Question,
-  Answer,
   SelectedAndRightAnswer,
 } from '../elaborator-question.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfigService } from '../../service';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 

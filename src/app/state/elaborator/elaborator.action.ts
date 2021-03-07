@@ -3,6 +3,7 @@ import {
   Question,
   SelectedAnswer,
   EvaluationResult,
+  SelectedAndRightAnswer,
 } from '../../component/elaborator-question.model';
 
 const ACTION_PREFIX = 'Elaborator';
@@ -28,13 +29,15 @@ export namespace ElaboratorAction {
   );
 
   export const evaluateAnswers = createAction(
-    `${ACTION_PREFIX} Evaluate Answers`
+    `${ACTION_PREFIX} Evaluate Answers`,
+    (selectedAnswerIds: string[] = []) => ({ selectedAnswerIds })
   );
 
   export const evaluateAnswersSuccess = createAction(
     `${ACTION_PREFIX} Evaluate Answers Success`,
-    (evaluationResult: EvaluationResult, questions: Question[]) => ({
-      evaluationResult,
+    (selectedAndRightAnswers: SelectedAndRightAnswer[], score: number, questions: Question[]) => ({
+      selectedAndRightAnswers,
+      score,
       questions,
     })
   );

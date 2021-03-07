@@ -27,18 +27,17 @@ export class ElaboratorService {
     });
   }
 
-  postSelectedAnswers(
-    selectedAnswers: SelectedAnswer[]
-  ): Observable<EvaluationResult> {
+  getSelectedAnswers(answerIds: string[]): Observable<EvaluationResult> {
     const selectedAnswersEndpoint = this.config.getSelectedAnswersEndpoint();
-    return this.httpClient.post<EvaluationResult>(
-      selectedAnswersEndpoint,
-      {
-        selectedAnswers,
-      },
-      {
-        withCredentials: true,
-      }
+    let requestParams = new HttpParams();
+
+    answerIds.forEach(
+      (answerId) => (requestParams = requestParams.append('answerId', answerId))
     );
+
+    return this.httpClient.get<EvaluationResult>(selectedAnswersEndpoint, {
+      params: requestParams,
+      withCredentials: true,
+    });
   }
 }

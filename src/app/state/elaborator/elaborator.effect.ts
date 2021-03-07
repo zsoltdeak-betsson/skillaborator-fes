@@ -7,6 +7,8 @@ import { ElaboratorService } from '../../service';
 import {
   Question,
   EvaluationResult,
+  SelectedAnswer,
+  SelectedAndRightAnswer,
 } from '../../component/elaborator-question.model';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -36,12 +38,33 @@ export class ElaboratorEffect {
   evaluateAnswers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ElaboratorAction.evaluateAnswers),
-      withLatestFrom(this.store.select(getSelectedAnswers)),
-      mergeMap(([, selectedAnswers]) =>
-        this.service.postSelectedAnswers(selectedAnswers).pipe(
-          withLatestFrom(this.store.select(getQuestions)),
-          map(([evaluationResult, questions]: [EvaluationResult, Question[]]) =>
-            ElaboratorAction.evaluateAnswersSuccess(evaluationResult, questions)
+      mergeMap(({ selectedAnswerIds }) =>
+        this.service.getSelectedAnswers(selectedAnswerIds).pipe(
+          withLatestFrom(
+            this.store.select(getQuestions),
+            this.store.select(getSelectedAnswers)
+          ),
+          map(
+            ([evaluationResult, questions, selectedAnswers]: [
+              EvaluationResult,
+              Question[],
+              SelectedAnswer[]
+            ]) => {
+              const selectedAndRightAnswers: SelectedAndRightAnswer[] = selectedAnswers.map(
+                (selectedAnswer) => ({
+                  ...selectedAnswer,
+                  rightAnswerIds:
+                    evaluationResult.rightAnswersByQuestions[
+                      selectedAnswer.questionId
+                    ],
+                })
+              );
+              return ElaboratorAction.evaluateAnswersSuccess(
+                selectedAndRightAnswers,
+                evaluationResult.score,
+                questions
+              );
+            }
           ),
           catchError((err) => {
             console.error(JSON.stringify(err));

@@ -27,6 +27,6 @@ export interface Code {
 }
 
 export interface EvaluationResult {
-  selectedAndRightAnswers: SelectedAndRightAnswer[];
+  rightAnswersByQuestions: Record<string, string[]>;
   score: number;
 }

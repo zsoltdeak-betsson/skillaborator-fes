@@ -24,11 +24,11 @@ export const reviewReducer = createRehydrateReducer(
   initialState,
   on(
     ElaboratorAction.evaluateAnswersSuccess,
-    (state: ReviewState, { evaluationResult, questions }) => {
+    (state: ReviewState, { selectedAndRightAnswers, score, questions }) => {
       return {
         ...state,
-        selectedAndRightAnswers: evaluationResult.selectedAndRightAnswers,
-        score: evaluationResult.score,
+        selectedAndRightAnswers,
+        score,
         questions,
       };
     }
