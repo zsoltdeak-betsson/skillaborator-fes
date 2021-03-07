@@ -24,9 +24,7 @@
       [value]="answer.id"
       [checked]="selectedAndRightAnswer?.answerIds.includes(answer.id)"
       [ngClass]="{
-        'right-answer':
-          selectedAndRightAnswer?.answerIds.includes(answer.id) &&
-          isRight(answer.id),
+        'right-answer': isRight(answer.id),
         'wrong-answer':
           selectedAndRightAnswer?.answerIds.includes(answer.id) &&
           !isRight(answer.id),
