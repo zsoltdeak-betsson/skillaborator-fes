@@ -79,7 +79,6 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
     ])
       .pipe(
         tap(([, , questions]) => {
-          // TODO if not in store yet, query from backend
           if (!questions?.length) {
             this.router.navigate(['']);
           }
