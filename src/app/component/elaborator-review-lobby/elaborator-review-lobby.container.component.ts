@@ -99,22 +99,20 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
 
           selectedAndRightAnswers.forEach((selectedAndRightAnswer) => {
             let answerSummaryState;
-            const answersRightAnswersIntersection = this.intersect(
+            const numberOfRightAndSelectedAnswers = this.intersect(
               selectedAndRightAnswer.rightAnswerIds,
               selectedAndRightAnswer.answerIds
-            );
+            ).length;
 
-            switch (answersRightAnswersIntersection.length) {
-              case 0:
-                answerSummaryState = AnswerSummaryState.Wrong;
-                break;
-              case selectedAndRightAnswer.rightAnswerIds.length:
-                answerSummaryState = AnswerSummaryState.Right;
-                break;
-              default:
-                answerSummaryState = AnswerSummaryState.PartialWrong;
-                break;
-            }
+            answerSummaryState =
+              numberOfRightAndSelectedAnswers === 0
+                ? AnswerSummaryState.Wrong
+                : numberOfRightAndSelectedAnswers ===
+                    selectedAndRightAnswer.rightAnswerIds.length &&
+                  selectedAndRightAnswer.rightAnswerIds.length ===
+                    selectedAndRightAnswer.answerIds.length
+                ? AnswerSummaryState.Right
+                : AnswerSummaryState.PartialWrong;
 
             this.selectedAndRightAnswersMap.set(
               selectedAndRightAnswer.questionId,
