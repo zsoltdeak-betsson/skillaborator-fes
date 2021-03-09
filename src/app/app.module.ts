@@ -25,6 +25,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CountdownClockComponent } from './component/elaborator-question/countdown-clock/countdown-clock/countdown-clock.component';
 
 export interface AppState {
   elaborator: ElaboratorState;
@@ -37,6 +38,7 @@ export interface AppState {
     ElaboratorLobbyComponent,
     ElaboratorQuestionComponent,
     ElaboratorReviewLobbyComponent,
+    CountdownClockComponent,
   ],
   imports: [
     BrowserModule,
