@@ -31,8 +31,8 @@ enum AnswerSummaryState {
 
 @Component({
   selector: 'sk-elaborator-review-lobby',
-  templateUrl: './elaborator-review-lobby.container.component.html',
-  styleUrls: ['./elaborator-review-lobby.container.component.scss'],
+  templateUrl: './elaborator-review-lobby.container.html',
+  styleUrls: ['./elaborator-review-lobby.container.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
@@ -69,7 +69,7 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private cdRef: ChangeDetectorRef,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.data$$ = combineLatest([
@@ -107,11 +107,11 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
               numberOfRightAndSelectedAnswers === 0
                 ? AnswerSummaryState.Wrong
                 : numberOfRightAndSelectedAnswers ===
-                    selectedAndRightAnswer.rightAnswerIds.length &&
+                  selectedAndRightAnswer.rightAnswerIds.length &&
                   selectedAndRightAnswer.rightAnswerIds.length ===
-                    selectedAndRightAnswer.answerIds.length
-                ? AnswerSummaryState.Right
-                : AnswerSummaryState.PartialWrong;
+                  selectedAndRightAnswer.answerIds.length
+                  ? AnswerSummaryState.Right
+                  : AnswerSummaryState.PartialWrong;
 
             this.selectedAndRightAnswersMap.set(
               selectedAndRightAnswer.questionId,
@@ -127,15 +127,15 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
             score < 120
               ? ProfessionalLevel.Beginner
               : score < 200
-              ? ProfessionalLevel.Medior
-              : ProfessionalLevel.Pro;
+                ? ProfessionalLevel.Medior
+                : ProfessionalLevel.Pro;
 
           this.scoreMessage =
             this.professionalLevel === ProfessionalLevel.Beginner
               ? 'You are at beginner level, keep learning!'
               : this.professionalLevel === ProfessionalLevel.Medior
-              ? 'Congratulations, you are at a professional level'
-              : 'Congratulations, you are a tech god emperor';
+                ? 'Congratulations, you are at a professional level'
+                : 'Congratulations, you are a tech god emperor';
 
           this.cdRef.markForCheck();
         }
@@ -175,7 +175,7 @@ export class ElaboratorReviewLobbyComponent implements OnInit, OnDestroy {
           radius: (context) => {
             const index = context.dataIndex;
             const xValue = Number(labels[index]);
-            if (Math.abs(this.score - xValue) <= 10){
+            if (Math.abs(this.score - xValue) <= 10) {
               return 4;
             }
             return 0;
