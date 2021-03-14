@@ -35,8 +35,6 @@
       (
         "headline-font-size": mat-font-size($typography-config, title),
         "headline-line-height": mat-line-height($typography-config, title),
-        "code-font-size": mat-font-size($typography-config, body-2),
-        "code-line-height": mat-line-height($typography-config, body-2),
         "content-font-size": mat-font-size($typography-config, body-1),
         "content-line-height": mat-line-height($typography-config, body-1),
       )

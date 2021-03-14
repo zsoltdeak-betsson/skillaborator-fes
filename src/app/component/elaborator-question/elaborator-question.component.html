@@ -7,7 +7,7 @@
   </span>
 </div>
 <pre *ngIf="question.code">
-  <code [highlight]="question.code.value" [languages]="[question.code.language]" class="elaborator-question-code-value"></code>
+  <code [ngClass]="codeLanguage" class="elaborator-question-code-value">{{question?.code.value}}</code>
 </pre>
 <div class="elaborator-question-content">
   <mat-radio-group

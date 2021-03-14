@@ -25,6 +25,7 @@
     flex-direction: column;
     align-items: center;
     align-self: stretch;
+    overflow: auto;
   }
 
   & &-new-evaluation {

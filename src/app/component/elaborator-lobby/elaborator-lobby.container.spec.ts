@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { ElaboratorLobbyComponent } from './elaborator-lobby.container.component';
+import { ElaboratorLobbyComponent } from './elaborator-lobby.container';
 
 describe('ElaboratorLobbyComponent', () => {
   let component: ElaboratorLobbyComponent;
@@ -8,9 +8,9 @@ describe('ElaboratorLobbyComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ElaboratorLobbyComponent ]
+      declarations: [ElaboratorLobbyComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

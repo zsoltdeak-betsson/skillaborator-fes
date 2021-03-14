@@ -22,8 +22,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'sk-elaborator-lobby',
-  templateUrl: './elaborator-lobby.container.component.html',
-  styleUrls: ['./elaborator-lobby.container.component.scss'],
+  templateUrl: './elaborator-lobby.container.html',
+  styleUrls: ['./elaborator-lobby.container.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })

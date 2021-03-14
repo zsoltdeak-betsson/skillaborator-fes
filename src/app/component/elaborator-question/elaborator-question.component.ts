@@ -6,6 +6,9 @@ import {
   ViewEncapsulation,
   Output,
   EventEmitter,
+  OnChanges,
+  SimpleChanges,
+  AfterViewInit,
 } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import {
@@ -14,6 +17,8 @@ import {
 } from '../elaborator-question.model';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import * as hljs from 'highlight.js';
+
 
 @Component({
   selector: 'sk-elaborator-question',
@@ -22,7 +27,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class ElaboratorQuestionComponent {
+export class ElaboratorQuestionComponent implements OnChanges, AfterViewInit {
   @HostBinding('class.elaborator-question') hostCss = true;
 
   @Input()
@@ -50,10 +55,24 @@ export class ElaboratorQuestionComponent {
   @Output()
   elaborationFinished = new EventEmitter<string[]>();
 
+  codeLanguage = "";
+
   private selectedAnswerIds: string[] = [];
   private _readOnly: boolean;
 
-  constructor() {}
+  constructor() { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.question && this.question.code) {
+      this.codeLanguage = "language-" + this.question.code.language;
+    }
+  }
+
+  ngAfterViewInit() {
+    if (this.question.code) {
+      hljs.highlightAll();
+    }
+  }
 
   isRight(answerId: string) {
     return this.selectedAndRightAnswer?.rightAnswerIds.includes(answerId);
